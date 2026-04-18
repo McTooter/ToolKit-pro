@@ -404,65 +404,76 @@ async function downloadVideo() {
   if (isAudio && aformat !== 'best') body.audioFormat = aformat;
   if (!isAudio) body.youtubeVideoCodec = vcodec;
 
-  try {
-    const res = await fetch('https://api.cobalt.tools/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    const data = await res.json();
+  const COBALT_INSTANCES = [
+    'https://cobalt-api.kwiatekm.dev/',
+    'https://api.cobalt.tools/',
+    'https://cobalt.q0.nhsh.it/',
+    'https://imput.net/cobalt/api/json',
+    'https://api.cobalt.best/'
+  ];
 
-    if (data.status === 'error') {
-      resultEl.innerHTML = `
-        <div class="result-box" style="color:var(--danger);">
-          ❌ ${data.error?.code || 'Unknown error'}: ${data.error?.context?.service || ''}
-          <br/><span style="font-size:0.78rem;color:var(--muted);">The URL may be unsupported or region-blocked.</span>
-        </div>`;
-      return;
-    }
+  let success = false;
+  let lastError = null;
 
-    const downloadUrl = data.url || (data.picker && data.picker[0]?.url);
-    const filename    = data.filename || 'download';
-
-    if (!downloadUrl) {
-      resultEl.innerHTML = `<div class="result-box" style="color:var(--warning);">⚠️ No download URL returned. Try a different quality or format.</div>`;
-      return;
-    }
-
-    resultEl.innerHTML = `
-      <div style="background:var(--bg2);border:1px solid var(--success);border-radius:10px;padding:1.25rem;margin-top:0.5rem;">
-        <div style="color:var(--success);font-weight:600;margin-bottom:0.75rem;">✅ Ready to download!</div>
-        <p style="font-size:0.8rem;color:var(--muted);margin-bottom:1rem;">File: <code>${filename}</code></p>
-        <a href="${downloadUrl}" download="${filename}" target="_blank"
-           style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.6rem 1.25rem;background:var(--success);color:#000;
-                  border-radius:8px;font-weight:700;font-size:0.9rem;text-decoration:none;"
-           onclick="showToast('⬇️ Download started!')">
-          ⬇️ Download ${isAudio ? 'Audio' : 'Video'}
-        </a>
-        <p style="font-size:0.72rem;color:var(--muted);margin-top:0.75rem;">
-          If the download doesn't start, <a href="${downloadUrl}" target="_blank" style="color:var(--accent);">open the direct link</a>.
-        </p>
-      </div>`;
-
-    if (data.status === 'picker' && data.picker?.length > 1) {
-      let picks = `<div style="margin-top:0.75rem;"><p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.5rem;">Also available:</p>`;
-      data.picker.slice(1).forEach((item, i) => {
-        picks += `<a href="${item.url}" target="_blank" download style="display:block;margin-bottom:0.4rem;color:var(--accent);font-size:0.85rem;">⬇️ Option ${i+2}</a>`;
+  for (const apiUrl of COBALT_INSTANCES) {
+    if (success) break;
+    
+    try {
+      resultEl.innerHTML = `<div class="result-box" style="color:var(--muted);text-align:center;">Contacting free API (${apiUrl.split('/')[2]})...</div>`;
+      
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(body),
       });
-      picks += `</div>`;
-      resultEl.querySelector('div').insertAdjacentHTML('beforeend', picks);
+      
+      if (!res.ok) throw new Error("API rejected the request");
+      
+      const data = await res.json();
+  
+      if (data.status === 'error') {
+          throw new Error(data.error?.code || 'Unknown error');
+      }
+  
+      const downloadUrl = data.url || (data.picker && data.picker[0]?.url);
+      const filename    = data.filename || 'download';
+  
+      if (!downloadUrl) throw new Error("No download URL returned");
+  
+      resultEl.innerHTML = `
+        <div style="background:var(--bg2);border:1px solid var(--success);border-radius:10px;padding:1.25rem;margin-top:0.5rem;">
+          <div style="color:var(--success);font-weight:600;margin-bottom:0.75rem;">✅ Ready to download!</div>
+          <p style="font-size:0.8rem;color:var(--muted);margin-bottom:1rem;">File: <code>${filename}</code></p>
+          <a href="${downloadUrl}" download="${filename}" target="_blank"
+             style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.6rem 1.25rem;background:var(--success);color:#000;
+                    border-radius:8px;font-weight:700;font-size:0.9rem;text-decoration:none;"
+             onclick="showToast('⬇️ Download started!')">
+            ⬇️ Download ${isAudio ? 'Audio' : 'Video'}
+          </a>
+          <p style="font-size:0.72rem;color:var(--muted);margin-top:0.75rem;">
+            If the download doesn't start, <a href="${downloadUrl}" target="_blank" style="color:var(--accent);">open the direct link</a>.
+          </p>
+        </div>`;
+      
+      success = true;
+      break; 
+  
+    } catch (err) {
+      lastError = err.message;
+      // Continue to next API instance
     }
+  }
 
-  } catch (err) {
+  if (!success) {
     resultEl.innerHTML = `
       <div class="result-box" style="color:var(--danger);">
-        ❌ Request failed: ${err.message}<br/>
-        <span style="font-size:0.78rem;color:var(--muted);">Check your internet connection or try again in a moment.</span>
+        ❌ All free downloader APIs are currently busy or blocked this video.<br/>
+        <span style="font-size:0.78rem;color:var(--muted);">Last Error: ${lastError} - Try again later.</span>
       </div>`;
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '⬇️ Download';
   }
+  
+  btn.disabled = false;
+  btn.textContent = '⬇️ Download';
 }
 
 // ── FILE CONVERTER (FFmpeg.wasm) ───────────────
