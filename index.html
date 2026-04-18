@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ToolKit Pro – Free Online Tools for Everyone</title>
+  <meta name="description" content="Free online tools: word counter, password generator, unit converter, color picker, QR code generator, JSON formatter, video downloader, file converter and more. No signup required." />
+  <meta name="keywords" content="free online tools, word counter, password generator, unit converter, color picker, QR code, json formatter, video downloader, file converter, mp3 converter, flac converter, opus, m4a" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://yourusername.github.io/toolkit-pro/" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="ToolKit Pro – Free Online Tools" />
+  <meta property="og:description" content="All the tools you need in one place. Free, fast, no signup." />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- FFmpeg.wasm – runs entirely in browser, no server needed -->
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.6/dist/umd/ffmpeg.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
+  <!-- jsPDF (Images→PDF) -->
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <!-- pdf-lib (PDF Tools) -->
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <!-- SheetJS (Spreadsheets) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <!-- mammoth (DOCX) -->
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+  <!-- marked + turndown (Markdown) -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/turndown@7.1.2/dist/turndown.min.js"></script>
+  <!-- Filerobot Image Editor (Photoshop alternative) -->
+  <script src="https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js"></script>
+  <!-- PDF.js is loaded dynamically in app.js as it's an ES Module -->
+  
+  <!-- AdSense – replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">⚡ ToolKit Pro</a>
+    <span class="tagline">100% Free • No Signup • Instant Results</span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Every Tool You Need,<br><span>Completely Free</span></h1>
+  <p>Word counters, password generators, converters & more. No ads tracking you down, no signup, no nonsense.</p>
+</section>
+
+<!-- AD SLOT (top) -->
+<div class="ad-banner">
+  <!-- AdSense slot – replace data-ad-slot with your slot ID -->
+  <!-- <ins class="adsbygoogle" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+  <div class="ad-slot">📢 Advertisement (AdSense will display here once approved)</div>
+</div>
+
+<!-- TOOLS GRID -->
+<section class="tools-section">
+  <div class="section-title">🎬 Media Tools</div>
+  <div class="tool-grid">
+    <div class="tool-card" onclick="openTool('video-dl')" id="card-video-dl" style="border-color: var(--accent); background: linear-gradient(135deg, var(--card), #1a1030);">
+      <div class="tool-icon">🎬</div>
+      <div class="tool-info"><h3>Video Downloader</h3><p>YouTube, Twitter/X, Instagram, TikTok, Reddit & 100+ sites. MP4, MP3, FLAC, Opus & more</p></div>
+    </div>
+    <div class="tool-card" onclick="openTool('file-converter')" id="card-file-converter" style="border-color: var(--accent2); background: linear-gradient(135deg, var(--card), #0d1a30);">
+      <div class="tool-icon">🔀</div>
+      <div class="tool-info"><h3>File Converter</h3><p>Convert any audio, video or image to any format — MP3, FLAC, OPUS, M4A, ALAC, WAV, MP4, WebM, JPG & more</p></div>
+      <span style="margin-left:auto;font-size:0.7rem;background:var(--accent2);color:#fff;padding:3px 8px;border-radius:99px;white-space:nowrap;align-self:center;flex-shrink:0;">NEW ✨</span>
+    </div>
+  </div>
+
+  <div class="section-title">📄 Document & PDF Tools</div>
+  <div class="tool-grid">
+    <div class="tool-card" onclick="openTool('doc-tools')" id="card-doc-tools" style="border-color: var(--warning); background: linear-gradient(135deg, var(--card), #30200d);">
+      <div class="tool-icon">📑</div>
+      <div class="tool-info"><h3>Doc & PDF Suite</h3><p>Merge, split, extract text/images from PDFs. Convert Excel, DOCX, Markdown, CSV, JSON</p></div>
+      <span style="margin-left:auto;font-size:0.7rem;background:var(--warning);color:#000;padding:3px 8px;border-radius:99px;white-space:nowrap;align-self:center;flex-shrink:0;">NEW ✨</span>
+    </div>
+  </div>
+
+  <div class="section-title">🎨 Image & Photo Tools</div>
+  <div class="tool-grid">
+    <div class="tool-card" onclick="openTool('image-editor')" id="card-image-editor" style="border-color: var(--accent); background: linear-gradient(135deg, var(--card), #1a1030);">
+      <div class="tool-icon">🖌️</div>
+      <div class="tool-info"><h3>Image Editor Suite</h3><p>Crop, resize, watermark, compress, convert, and edit images instantly</p></div>
+      <span style="margin-left:auto;font-size:0.7rem;background:var(--accent);color:#fff;padding:3px 8px;border-radius:99px;white-space:nowrap;align-self:center;flex-shrink:0;">NEW ✨</span>
+    </div>
+    <div class="tool-card" onclick="openTool('color-picker')" id="card-color-picker">
+      <div class="tool-icon">🎨</div>
+      <div class="tool-info"><h3>Color Picker</h3><p>Convert HEX ↔ RGB ↔ HSL instantly</p></div>
+    </div>
+  </div>
+
+  <div class="section-title">✏️ Text Tools</div>
+  <div class="tool-grid">
+    <div class="tool-card" onclick="openTool('word-counter')" id="card-word-counter">
+      <div class="tool-icon">📝</div>
+      <div class="tool-info"><h3>Word Counter</h3><p>Count words, characters, sentences & reading time</p></div>
+    </div>
+    <div class="tool-card" onclick="openTool('case-converter')" id="card-case-converter">
+      <div class="tool-icon">🔤</div>
+      <div class="tool-info"><h3>Case Converter</h3><p>Upper, lower, title case & more</p></div>
+    </div>
+    <div class="tool-card" onclick="openTool('lorem-ipsum')" id="card-lorem-ipsum">
+      <div class="tool-icon">📄</div>
+      <div class="tool-info"><h3>Lorem Ipsum Generator</h3><p>Generate placeholder text instantly</p></div>
+    </div>
+  </div>
+
+  <div class="section-title">🔒 Security Tools</div>
+  <div class="tool-grid">
+    <div class="tool-card" onclick="openTool('password-gen')" id="card-password-gen">
+      <div class="tool-icon">🔐</div>
+      <div class="tool-info"><h3>Password Generator</h3><p>Strong, random passwords in one click</p></div>
+    </div>
+    <div class="tool-card" onclick="openTool('hash-gen')" id="card-hash-gen">
+      <div class="tool-icon">🔑</div>
+      <div class="tool-info"><h3>Text to Hash</h3><p>Generate MD5 / SHA-style checksums</p></div>
+    </div>
+  </div>
+
+  <div class="section-title">📐 Converters</div>
+  <div class="tool-grid">
+    <div class="tool-card" onclick="openTool('unit-converter')" id="card-unit-converter">
+      <div class="tool-icon">📏</div>
+      <div class="tool-info"><h3>Unit Converter</h3><p>Length, weight, temperature & more</p></div>
+    </div>
+    <div class="tool-card" onclick="openTool('base64')" id="card-base64">
+      <div class="tool-icon">🔄</div>
+      <div class="tool-info"><h3>Base64 Encoder/Decoder</h3><p>Encode or decode text in Base64</p></div>
+    </div>
+  </div>
+
+  <div class="section-title">🛠️ Developer Tools</div>
+  <div class="tool-grid">
+    <div class="tool-card" onclick="openTool('json-format')" id="card-json-format">
+      <div class="tool-icon">📦</div>
+      <div class="tool-info"><h3>JSON Formatter</h3><p>Prettify and validate JSON instantly</p></div>
+    </div>
+    <div class="tool-card" onclick="openTool('qr-gen')" id="card-qr-gen">
+      <div class="tool-icon">📱</div>
+      <div class="tool-info"><h3>QR Code Generator</h3><p>Generate QR codes for any URL or text</p></div>
+    </div>
+    <div class="tool-card" onclick="openTool('timestamp')" id="card-timestamp">
+      <div class="tool-icon">⏱️</div>
+      <div class="tool-info"><h3>Timestamp Converter</h3><p>Convert UNIX timestamps to human dates</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOL DISPLAY AREA -->
+<div id="tool-area">
+
+  <!-- VIDEO DOWNLOADER -->
+  <div id="tool-video-dl" class="tool-panel">
+    <h2>🎬 Video Downloader</h2>
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.25rem;">Supports YouTube, Twitter/X, Instagram, TikTok, Reddit, Vimeo & more. Powered by <a href="https://cobalt.tools" target="_blank" style="color:var(--accent);">Cobalt</a>.</p>
+    <div class="field">
+      <label for="vdl-url">Video URL</label>
+      <input type="text" id="vdl-url" placeholder="https://youtube.com/watch?v=... or any supported URL" />
+    </div>
+
+    <!-- Mode toggle -->
+    <div class="field">
+      <label>Download mode</label>
+      <div class="check-group" style="margin-top:0.3rem;">
+        <label class="check-item"><input type="radio" name="vdl-mode" id="vdl-mode-video" value="video" checked onchange="vdlToggleMode()"> 🎬 Video + Audio</label>
+        <label class="check-item"><input type="radio" name="vdl-mode" id="vdl-mode-audio" value="audio" onchange="vdlToggleMode()"> 🎵 Audio only</label>
+      </div>
+    </div>
+
+    <!-- Video options -->
+    <div id="vdl-video-opts" class="row">
+      <div class="field">
+        <label for="vdl-quality">Quality</label>
+        <select id="vdl-quality">
+          <option value="max">Max (best available)</option>
+          <option value="2160">4K (2160p)</option>
+          <option value="1440">1440p</option>
+          <option value="1080" selected>1080p (Full HD)</option>
+          <option value="720">720p (HD)</option>
+          <option value="480">480p</option>
+          <option value="360">360p</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="vdl-vcodec">Video codec</label>
+        <select id="vdl-vcodec">
+          <option value="h264" selected>H.264 (MP4, best compat)</option>
+          <option value="vp9">VP9 (WebM)</option>
+          <option value="av1">AV1 (WebM, smallest size)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Audio options -->
+    <div id="vdl-audio-opts" class="row" style="display:none;">
+      <div class="field">
+        <label for="vdl-aformat">Audio format</label>
+        <select id="vdl-aformat">
+          <option value="best" selected>Best (auto)</option>
+          <option value="mp3">MP3 — universal compatibility</option>
+          <option value="ogg">OGG — open source, good quality</option>
+          <option value="opus">Opus — best quality/size ratio</option>
+          <option value="wav">WAV — lossless uncompressed</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="vdl-btn" onclick="downloadVideo()">⬇️ Download</button>
+    </div>
+    <div id="vdl-result" style="margin-top:1.25rem;"></div>
+    <div style="margin-top:1.5rem;padding:1rem;background:var(--bg2);border-radius:8px;border:1px solid var(--border);">
+      <p style="font-size:0.75rem;color:var(--muted);margin:0;">⚠️ Only download videos you have rights to. Respect copyright laws and platform ToS. Personal use only. For FLAC / ALAC / M4A: download audio then use the <a href="javascript:openTool('file-converter')" style="color:var(--accent2);">File Converter</a> below.</p>
+    </div>
+  </div>
+
+  <!-- FILE CONVERTER -->
+  <div id="tool-file-converter" class="tool-panel">
+    <h2>🔀 File Converter</h2>
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.25rem;">Convert audio, video & images entirely in your browser. No upload to any server. Powered by <strong>FFmpeg.wasm</strong>.</p>
+
+    <!-- Drop zone -->
+    <div id="fc-dropzone" class="fc-dropzone" onclick="document.getElementById('fc-file').click()" ondragover="fcDragOver(event)" ondrop="fcDrop(event)">
+      <div style="pointer-events:none;">
+        <div style="font-size:2.5rem;margin-bottom:0.5rem;">📁</div>
+        <p style="font-weight:600;margin:0;">Drop a file here or click to browse</p>
+        <p style="font-size:0.78rem;color:var(--muted);margin:0.25rem 0 0;">Audio · Video · Images — any format · <strong style="color:var(--warning);">Max 500 MB</strong></p>
+      </div>
+    </div>
+    <input type="file" id="fc-file" style="display:none;" onchange="fcFileSelected(this)"/>
+    <div id="fc-filename" style="font-size:0.82rem;color:var(--accent);margin-top:0.5rem;"></div>
+
+    <div class="row" style="margin-top:1rem;">
+      <div class="field">
+        <label for="fc-category">Output type</label>
+        <select id="fc-category" onchange="fcUpdateFormats()">
+          <option value="audio">🎵 Audio</option>
+          <option value="video">🎬 Video</option>
+          <option value="image">🖼️ Image</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="fc-format">Output format</label>
+        <select id="fc-format"></select>
+      </div>
+    </div>
+
+    <!-- Extra audio options (shown for audio output) -->
+    <div id="fc-audio-opts" class="row">
+      <div class="field">
+        <label for="fc-bitrate">Bitrate (kbps)</label>
+        <select id="fc-bitrate">
+          <option value="96">96 kbps — small file</option>
+          <option value="128" selected>128 kbps — good quality</option>
+          <option value="192">192 kbps — high quality</option>
+          <option value="320">320 kbps — max MP3</option>
+          <option value="0">Lossless (FLAC/WAV/ALAC)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="fc-samplerate">Sample rate</label>
+        <select id="fc-samplerate">
+          <option value="">Keep original</option>
+          <option value="22050">22,050 Hz</option>
+          <option value="44100">44,100 Hz (CD)</option>
+          <option value="48000">48,000 Hz (studio)</option>
+          <option value="96000">96,000 Hz (hi-res)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Extra video options (shown for video output) -->
+    <div id="fc-video-opts" class="row" style="display:none;">
+      <div class="field">
+        <label for="fc-vbitrate">Video quality (CRF)</label>
+        <select id="fc-vbitrate">
+          <option value="18">18 — near lossless</option>
+          <option value="23" selected>23 — high quality</option>
+          <option value="28">28 — balanced</option>
+          <option value="35">35 — smaller file</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="fc-scale">Resize</label>
+        <select id="fc-scale">
+          <option value="">Keep original size</option>
+          <option value="1920:-1">1080p width</option>
+          <option value="1280:-1">720p width</option>
+          <option value="854:-1">480p width</option>
+          <option value="640:-1">360p width</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-row" style="margin-top:0.5rem;">
+      <button class="btn btn-primary" id="fc-btn" onclick="convertFile()">⚡ Convert & Download</button>
+    </div>
+
+    <!-- Progress -->
+    <div id="fc-progress" style="display:none;margin-top:1rem;">
+      <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:var(--muted);margin-bottom:0.4rem;">
+        <span id="fc-status-text">Loading FFmpeg…</span>
+        <span id="fc-pct">0%</span>
+      </div>
+      <div style="height:6px;background:var(--bg3);border-radius:99px;overflow:hidden;">
+        <div id="fc-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width 0.3s;"></div>
+      </div>
+    </div>
+
+    <div id="fc-result" style="margin-top:1rem;"></div>
+
+    <!-- Format reference -->
+    <details style="margin-top:1.25rem;">
+      <summary style="font-size:0.8rem;color:var(--muted);cursor:pointer;">📋 Supported formats</summary>
+      <div style="font-size:0.78rem;color:var(--muted);margin-top:0.75rem;line-height:1.8;">
+        <strong style="color:var(--text);">🎵 Audio:</strong> MP3 · FLAC · WAV · OGG · Opus · M4A (AAC) · ALAC · AC3 · AMR · AIFF<br/>
+        <strong style="color:var(--text);">🎬 Video:</strong> MP4 (H.264) · WebM (VP9/AV1) · MKV · AVI · MOV · GIF<br/>
+        <strong style="color:var(--text);">🖼️ Image:</strong> JPG · PNG · WebP · BMP · TIFF · GIF (static)<br/>
+        <em>First conversion takes ~10s to load FFmpeg engine (one-time per visit).</em>
+      </div>
+    </details>
+  </div>
+
+  <!-- DOCUMENT TOOLS SUITE -->
+  <div id="tool-doc-tools" class="tool-panel">
+    <h2>📑 Document & PDF Suite</h2>
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.25rem;">Browser-based document processing. No files are uploaded to any server. Completely private.</p>
+    
+    <div class="tool-tabs" style="display:flex; gap:0.5rem; margin-bottom: 1.5rem; overflow-x:auto; padding-bottom:0.5rem; border-bottom:1px solid var(--border);">
+      <button class="btn btn-primary" onclick="setDocTab('doc-pdf')" id="btn-doc-pdf">PDF Tools</button>
+      <button class="btn btn-ghost" onclick="setDocTab('doc-sheet')" id="btn-doc-sheet">Spreadsheets</button>
+      <button class="btn btn-ghost" onclick="setDocTab('doc-word')" id="btn-doc-word">Doc/Markup</button>
+    </div>
+
+    <!-- Tab: PDF Tools -->
+    <div id="doc-tab-pdf">
+      <!-- Drop zone -->
+      <div id="dt-pdf-dropzone" class="fc-dropzone" onclick="document.getElementById('dt-pdf-file').click()" ondragover="fcDragOver(event)" ondrop="dtPdfDrop(event)" ondragleave="document.getElementById('dt-pdf-dropzone').classList.remove('drag-over')">
+        <div style="pointer-events:none;">
+          <div style="font-size:2.5rem;margin-bottom:0.5rem;">📄</div>
+          <p style="font-weight:600;margin:0;">Drop files here or click to browse</p>
+          <p style="font-size:0.78rem;color:var(--muted);margin:0.25rem 0 0;">Images to PDF • PDF to Images • PDF Merge/Split</p>
+        </div>
+      </div>
+      <input type="file" id="dt-pdf-file" style="display:none;" multiple onchange="dtPdfSelected(this)"/>
+      <div id="dt-pdf-filename" style="font-size:0.82rem;color:var(--accent);margin-top:0.5rem;"></div>
+
+      <div class="row" style="margin-top:1rem;">
+        <div class="field">
+          <label for="dt-pdf-action">Action</label>
+          <select id="dt-pdf-action" onchange="dtPdfActionChange()">
+            <option value="img2pdf">🖼️ Images → PDF</option>
+            <option value="pdf2img">📷 PDF → Images (PNG)</option>
+            <option value="pdf2txt">📝 PDF → Text</option>
+            <option value="merge">📑 Merge PDFs</option>
+            <option value="split">✂️ Split PDF</option>
+            <option value="compress">🗜️ Compress PDF</option>
+          </select>
+        </div>
+        <div class="field" id="dt-pdf-extra-field" style="display:none;">
+          <!-- Shows extra inputs based on action -->
+        </div>
+      </div>
+      <div class="btn-row" style="margin-top:0.5rem;">
+        <button class="btn btn-primary" id="dt-pdf-btn" onclick="executePdfTool()">⚡ Run Tool</button>
+      </div>
+      <div id="dt-pdf-result" style="margin-top:1rem;"></div>
+    </div>
+
+    <!-- Tab: Spreadsheets -->
+    <div id="doc-tab-sheet" style="display:none;">
+      <div id="dt-sh-dropzone" class="fc-dropzone" onclick="document.getElementById('dt-sh-file').click()" ondragover="fcDragOver(event)" ondrop="dtShDrop(event)" ondragleave="document.getElementById('dt-sh-dropzone').classList.remove('drag-over')">
+        <div style="pointer-events:none;">
+          <div style="font-size:2.5rem;margin-bottom:0.5rem;">📊</div>
+          <p style="font-weight:600;margin:0;">Drop Excel/CSV here</p>
+        </div>
+      </div>
+      <input type="file" id="dt-sh-file" style="display:none;" onchange="dtShSelected(this)"/>
+      <div id="dt-sh-filename" style="font-size:0.82rem;color:var(--accent);margin-top:0.5rem;"></div>
+      
+      <div class="row" style="margin-top:1rem;">
+        <div class="field">
+          <label>Convert To</label>
+          <select id="dt-sh-format">
+             <option value="csv">CSV (Comma Separated)</option>
+             <option value="json">JSON</option>
+             <option value="xlsx">Excel (XLSX)</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row" style="margin-top:0.5rem;">
+        <button class="btn btn-primary" id="dt-sh-btn" onclick="executeSheetTool()">⚡ Convert Spreadsheet</button>
+      </div>
+      <div id="dt-sh-result" style="margin-top:1rem;"></div>
+    </div>
+
+    <!-- Tab: Doc/Markup -->
+    <div id="doc-tab-word" style="display:none;">
+       <div id="dt-doc-dropzone" class="fc-dropzone" onclick="document.getElementById('dt-doc-file').click()" ondragover="fcDragOver(event)" ondrop="dtDocDrop(event)" ondragleave="document.getElementById('dt-doc-dropzone').classList.remove('drag-over')">
+        <div style="pointer-events:none;">
+          <div style="font-size:2.5rem;margin-bottom:0.5rem;">📝</div>
+          <p style="font-weight:600;margin:0;">Drop DOCX / Markdown / HTML here</p>
+        </div>
+      </div>
+      <input type="file" id="dt-doc-file" style="display:none;" onchange="dtDocSelected(this)"/>
+      <div id="dt-doc-filename" style="font-size:0.82rem;color:var(--accent);margin-top:0.5rem;"></div>
+
+      <div class="row" style="margin-top:1rem;">
+        <div class="field">
+          <label>Convert To</label>
+          <select id="dt-doc-format">
+             <option value="html">HTML</option>
+             <option value="md">Markdown</option>
+             <option value="txt">Plain Text</option>
+             <option value="docx" style="color:var(--danger)">Word (.docx) - NOT SUPPORTED</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row" style="margin-top:0.5rem;">
+        <button class="btn btn-primary" id="dt-doc-btn" onclick="executeDocTool()">⚡ Convert Document</button>
+      </div>
+      <div id="dt-doc-result" style="margin-top:1rem;"></div>
+    </div>
+
+  </div>
+
+  <!-- IMAGE EDITOR SUITE -->
+  <div id="tool-image-editor" class="tool-panel">
+    <h2>🖌️ Image Editor Suite</h2>
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.25rem;">Photoshop & iLoveImg alternative. Full photo editor runs entirely in your browser.</p>
+
+    <!-- File selection -->
+    <div id="ie-dropzone" class="fc-dropzone" onclick="document.getElementById('ie-file').click()" ondragover="fcDragOver(event)" ondrop="ieDrop(event)" ondragleave="document.getElementById('ie-dropzone').classList.remove('drag-over')">
+      <div style="pointer-events:none;">
+        <div style="font-size:2.5rem;margin-bottom:0.5rem;">🖼️</div>
+        <p style="font-weight:600;margin:0;">Drop an image here or click to browse</p>
+      </div>
+    </div>
+    <input type="file" id="ie-file" accept="image/*" style="display:none;" onchange="ieSelected(this)"/>
+    <div id="ie-filename" style="font-size:0.82rem;color:var(--accent);margin-top:0.5rem;margin-bottom:1rem;"></div>
+
+    <!-- Workspace -->
+    <div id="ie-workspace" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+        <button class="btn btn-secondary" onclick="ieResetEditor()">⬅️ Pick a different image</button>
+      </div>
+      <div id="editor_container" style="width: 100%; height: 85vh; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: #111;"></div>
+    </div>
+  </div>
+
+  <!-- WORD COUNTER -->
+  <div id="tool-word-counter" class="tool-panel">
+    <h2>📝 Word Counter</h2>
+    <div class="field">
+      <label for="wc-input">Paste or type your text below</label>
+      <textarea id="wc-input" placeholder="Start typing..." oninput="analyzeText()"></textarea>
+    </div>
+    <div class="stat-grid" id="wc-stats">
+      <div class="stat-card"><div class="stat-val" id="wc-words">0</div><div class="stat-label">Words</div></div>
+      <div class="stat-card"><div class="stat-val" id="wc-chars">0</div><div class="stat-label">Characters</div></div>
+      <div class="stat-card"><div class="stat-val" id="wc-chars-ns">0</div><div class="stat-label">Chars (no spaces)</div></div>
+      <div class="stat-card"><div class="stat-val" id="wc-sentences">0</div><div class="stat-label">Sentences</div></div>
+      <div class="stat-card"><div class="stat-val" id="wc-paragraphs">0</div><div class="stat-label">Paragraphs</div></div>
+      <div class="stat-card"><div class="stat-val" id="wc-read">0 min</div><div class="stat-label">Read Time</div></div>
+    </div>
+  </div>
+
+  <!-- CASE CONVERTER -->
+  <div id="tool-case-converter" class="tool-panel">
+    <h2>🔤 Case Converter</h2>
+    <div class="field">
+      <label for="cc-input">Your text</label>
+      <textarea id="cc-input" placeholder="Type your text here..."></textarea>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="convertCase('upper')">UPPERCASE</button>
+      <button class="btn btn-secondary" onclick="convertCase('lower')">lowercase</button>
+      <button class="btn btn-secondary" onclick="convertCase('title')">Title Case</button>
+      <button class="btn btn-secondary" onclick="convertCase('sentence')">Sentence case</button>
+      <button class="btn btn-ghost" onclick="convertCase('camel')">camelCase</button>
+      <button class="btn btn-ghost" onclick="convertCase('snake')">snake_case</button>
+      <button class="btn btn-ghost" onclick="convertCase('kebab')">kebab-case</button>
+    </div>
+    <div class="result-box" id="cc-result">Your converted text will appear here.</div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="copyResult('cc-result')">📋 Copy</button>
+    </div>
+  </div>
+
+  <!-- LOREM IPSUM -->
+  <div id="tool-lorem-ipsum" class="tool-panel">
+    <h2>📄 Lorem Ipsum Generator</h2>
+    <div class="row">
+      <div class="field">
+        <label for="li-count">Number of paragraphs</label>
+        <input type="number" id="li-count" min="1" max="20" value="3"/>
+      </div>
+      <div class="field">
+        <label for="li-sentences">Sentences per paragraph</label>
+        <input type="number" id="li-sentences" min="1" max="15" value="5"/>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="generateLorem()">⚡ Generate</button>
+    </div>
+    <div class="result-box" id="li-result">Click Generate to create placeholder text.</div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="copyResult('li-result')">📋 Copy</button>
+    </div>
+  </div>
+
+  <!-- PASSWORD GENERATOR -->
+  <div id="tool-password-gen" class="tool-panel">
+    <h2>🔐 Password Generator</h2>
+    <div class="field">
+      <label for="pg-length">Password length: <strong id="pg-len-val">16</strong></label>
+      <input type="range" id="pg-length" min="6" max="64" value="16" oninput="document.getElementById('pg-len-val').textContent=this.value; generatePassword()"/>
+    </div>
+    <div class="field">
+      <label>Include:</label>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" id="pg-upper" checked onchange="generatePassword()"> Uppercase (A-Z)</label>
+        <label class="check-item"><input type="checkbox" id="pg-lower" checked onchange="generatePassword()"> Lowercase (a-z)</label>
+        <label class="check-item"><input type="checkbox" id="pg-digits" checked onchange="generatePassword()"> Numbers (0-9)</label>
+        <label class="check-item"><input type="checkbox" id="pg-sym" checked onchange="generatePassword()"> Symbols (!@#$)</label>
+      </div>
+    </div>
+    <div class="result-box" id="pg-result" style="font-size:1.2rem;text-align:center;letter-spacing:2px;"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="generatePassword()">🔄 Regenerate</button>
+      <button class="btn btn-ghost" onclick="copyResult('pg-result')">📋 Copy</button>
+    </div>
+    <div id="pg-strength" style="margin-top:0.75rem;font-size:0.85rem;color:var(--muted);"></div>
+  </div>
+
+  <!-- HASH GENERATOR -->
+  <div id="tool-hash-gen" class="tool-panel">
+    <h2>🔑 Text Hasher</h2>
+    <div class="field">
+      <label for="hg-input">Enter text to hash</label>
+      <textarea id="hg-input" placeholder="Type your text..." style="min-height:80px;"></textarea>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="hashText()">⚡ Hash It</button>
+    </div>
+    <div id="hg-results" style="margin-top:1rem;"></div>
+  </div>
+
+  <!-- UNIT CONVERTER -->
+  <div id="tool-unit-converter" class="tool-panel">
+    <h2>📏 Unit Converter</h2>
+    <div class="field">
+      <label for="uc-type">Category</label>
+      <select id="uc-type" onchange="initUnitConverter()">
+        <option value="length">Length</option>
+        <option value="weight">Weight / Mass</option>
+        <option value="temperature">Temperature</option>
+        <option value="area">Area</option>
+        <option value="speed">Speed</option>
+        <option value="data">Data / Storage</option>
+      </select>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="uc-value">Value</label>
+        <input type="number" id="uc-value" value="1" oninput="convertUnit()"/>
+      </div>
+      <div class="field">
+        <label for="uc-from">From</label>
+        <select id="uc-from" onchange="convertUnit()"></select>
+      </div>
+      <div class="field">
+        <label for="uc-to">To</label>
+        <select id="uc-to" onchange="convertUnit()"></select>
+      </div>
+    </div>
+    <div class="result-box" id="uc-result" style="font-size:1.3rem;text-align:center;"></div>
+  </div>
+
+  <!-- COLOR PICKER -->
+  <div id="tool-color-picker" class="tool-panel">
+    <h2>🎨 Color Picker & Converter</h2>
+    <div class="row" style="align-items:center;">
+      <div class="field" style="flex:0 0 auto;">
+        <label>Pick a color</label>
+        <input type="color" id="cp-picker" value="#7c5cfc" oninput="updateColor(this.value)"/>
+      </div>
+      <div class="field">
+        <label for="cp-hex">HEX</label>
+        <input type="text" id="cp-hex" value="#7c5cfc" oninput="updateColorFromHex(this.value)" placeholder="#ffffff"/>
+      </div>
+    </div>
+    <div class="color-preview" id="cp-preview" style="background:#7c5cfc;"></div>
+    <div class="color-values">
+      <div class="color-val-card" onclick="copyText(document.getElementById('cp-hex-val').textContent)">
+        <span>HEX</span><strong id="cp-hex-val">#7c5cfc</strong>
+      </div>
+      <div class="color-val-card" onclick="copyText(document.getElementById('cp-rgb-val').textContent)">
+        <span>RGB</span><strong id="cp-rgb-val">rgb(124,92,252)</strong>
+      </div>
+      <div class="color-val-card" onclick="copyText(document.getElementById('cp-hsl-val').textContent)">
+        <span>HSL</span><strong id="cp-hsl-val">hsl(258°,95%,67%)</strong>
+      </div>
+    </div>
+    <p style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem;">Click any value to copy it.</p>
+  </div>
+
+  <!-- BASE64 -->
+  <div id="tool-base64" class="tool-panel">
+    <h2>🔄 Base64 Encoder / Decoder</h2>
+    <div class="field">
+      <label for="b64-input">Input text</label>
+      <textarea id="b64-input" placeholder="Paste text or Base64 here..."></textarea>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="doBase64('encode')">🔒 Encode</button>
+      <button class="btn btn-secondary" onclick="doBase64('decode')">🔓 Decode</button>
+    </div>
+    <div class="result-box" id="b64-result">Result will appear here.</div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="copyResult('b64-result')">📋 Copy</button>
+    </div>
+  </div>
+
+  <!-- JSON FORMATTER -->
+  <div id="tool-json-format" class="tool-panel">
+    <h2>📦 JSON Formatter & Validator</h2>
+    <div class="field">
+      <label for="jf-input">Paste your JSON</label>
+      <textarea id="jf-input" placeholder='{"name":"ToolKit","version":1}' style="min-height:160px;"></textarea>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="formatJSON(2)">✨ Prettify</button>
+      <button class="btn btn-secondary" onclick="formatJSON(0)">🗜️ Minify</button>
+      <button class="btn btn-ghost" onclick="validateJSON()">✅ Validate</button>
+    </div>
+    <div class="result-box" id="jf-result">Result will appear here.</div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="copyResult('jf-result')">📋 Copy</button>
+    </div>
+  </div>
+
+  <!-- QR CODE GENERATOR -->
+  <div id="tool-qr-gen" class="tool-panel">
+    <h2>📱 QR Code Generator</h2>
+    <div class="field">
+      <label for="qr-input">URL or text</label>
+      <input type="text" id="qr-input" placeholder="https://example.com or any text"/>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="qr-size">Size (px)</label>
+        <select id="qr-size">
+          <option value="150">150 × 150</option>
+          <option value="200" selected>200 × 200</option>
+          <option value="300">300 × 300</option>
+          <option value="400">400 × 400</option>
+        </select>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="generateQR()">⚡ Generate QR</button>
+    </div>
+    <div id="qr-output" style="margin-top:1.5rem;text-align:center;"></div>
+  </div>
+
+  <!-- TIMESTAMP CONVERTER -->
+  <div id="tool-timestamp" class="tool-panel">
+    <h2>⏱️ Timestamp Converter</h2>
+    <div class="field">
+      <label for="ts-unix">UNIX Timestamp (seconds)</label>
+      <input type="number" id="ts-unix" placeholder="e.g. 1713441600"/>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="tsToDate()">→ Convert to Date</button>
+      <button class="btn btn-secondary" onclick="tsNow()">📅 Use Now</button>
+    </div>
+    <div class="result-box" id="ts-result" style="white-space:pre;"></div>
+    <div style="margin-top:1.25rem;">
+      <div class="field">
+        <label for="ts-date">Date & Time (local)</label>
+        <input type="text" id="ts-date" placeholder="2024-04-18 12:30:00"/>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="dateToTs()">→ Convert to UNIX</button>
+      </div>
+      <div class="result-box" id="ts-result2"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- AD SLOT (bottom) -->
+<div class="ad-banner">
+  <div class="ad-slot">📢 Advertisement (AdSense will display here)</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <strong>ToolKit Pro</strong> · All tools are free to use · No data is stored or sent to any server</p>
+  <p style="margin-top:0.3rem;">Built with ❤️ · <a href="#hero">Back to top</a></p>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✅ Copied to clipboard!</div>
+
+<!-- QR API via goQR.me (free) -->
+<script src="app.js"></script>
+<script>
+  // Init on load
+  initUnitConverter();
+  generatePassword();
+  updateColor('#7c5cfc');
+</script>
+</body>
+</html>
